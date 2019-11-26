@@ -19,7 +19,7 @@ public class GoodsRequest {
     private String goodsName;
 
 //    Количество
-    private int amount;
+    private double amount;
 
 //    Ед. Измерения
     private String unit;
@@ -44,7 +44,7 @@ public class GoodsRequest {
 
 //    Отметка о выполнении
     private boolean progressMark;
-    
+
 //    Комментарии
     private String comments;
 
@@ -84,7 +84,7 @@ public class GoodsRequest {
         this.goodsName = goodsName;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -136,7 +136,7 @@ public class GoodsRequest {
         return goodsName;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
