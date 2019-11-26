@@ -40,6 +40,7 @@ public class TestController {
         XSSFSheet sh = wb.getSheet("Заявка");
         XSSFRow row = sh.getRow(1);
         //printexcel = row.getCell(1);
-        return row.getCell(1).getStringCellValue();
+        return row.getCell(2).getStringCellValue();
+
     }
 }
