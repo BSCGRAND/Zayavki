@@ -1,6 +1,7 @@
 package ru.bscgrand.Zayavka.Models;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -10,7 +11,7 @@ public class GoodsRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 //    Дата подачи заявка
-    private Date dateOfPurchaseRequest;
+    private Calendar dateOfPurchaseRequest;
 
 //    Подразделение подающее заявку + ФИО + Объект
     private String info;
@@ -25,7 +26,7 @@ public class GoodsRequest {
     private String unit;
 
 //    Дата получения на объекте
-    private Date dateOfReceiving;
+    private Calendar dateOfReceiving;
 
 //    Примечание
     private String note;
@@ -34,7 +35,7 @@ public class GoodsRequest {
     private String responsibleUnit;
 
 //    Дата формирования общей заявки на закуп
-    private Date dateOfGeneralRequest;
+    private Calendar dateOfGeneralRequest;
 
 //    Поставка
     private boolean supply;
@@ -52,7 +53,7 @@ public class GoodsRequest {
         this.responsibleUnit = responsibleUnit;
     }
 
-    public void setDateOfGeneralRequest(Date dateOfGeneralRequest) {
+    public void setDateOfGeneralRequest(Calendar dateOfGeneralRequest) {
         this.dateOfGeneralRequest = dateOfGeneralRequest;
     }
 
@@ -72,7 +73,7 @@ public class GoodsRequest {
         this.comments = comments;
     }
 
-    public void setDateOfPurchaseRequest(Date dateOfPurchaseRequest) {
+    public void setDateOfPurchaseRequest(Calendar dateOfPurchaseRequest) {
         this.dateOfPurchaseRequest = dateOfPurchaseRequest;
     }
 
@@ -92,7 +93,7 @@ public class GoodsRequest {
         this.unit = unit;
     }
 
-    public void setDateOfReceiving(Date dateOfReceiving) {
+    public void setDateOfReceiving(Calendar dateOfReceiving) {
         this.dateOfReceiving = dateOfReceiving;
     }
 
@@ -104,7 +105,7 @@ public class GoodsRequest {
         return responsibleUnit;
     }
 
-    public Date getDateOfGeneralRequest() {
+    public Calendar getDateOfGeneralRequest() {
         return dateOfGeneralRequest;
     }
 
@@ -124,7 +125,7 @@ public class GoodsRequest {
         return comments;
     }
 
-    public Date getDateOfPurchaseRequest() {
+    public Calendar getDateOfPurchaseRequest() {
         return dateOfPurchaseRequest;
     }
 
@@ -144,7 +145,7 @@ public class GoodsRequest {
         return unit;
     }
 
-    public Date getDateOfReceiving() {
+    public Calendar getDateOfReceiving() {
         return dateOfReceiving;
     }
 
@@ -152,7 +153,7 @@ public class GoodsRequest {
         return note;
     }
 
-    public GoodsRequest(Date dateOfPurchaseRequest, String info, String goodsName, int amount, String unit, Date dateOfReceiving, String note) {
+    public GoodsRequest(Calendar dateOfPurchaseRequest, String info, String goodsName, double amount, String unit, Calendar dateOfReceiving, String note, String responsibleUnit, Calendar dateOfGeneralRequest, boolean supply, boolean sent, boolean progressMark, String comments) {
         this.dateOfPurchaseRequest = dateOfPurchaseRequest;
         this.info = info;
         this.goodsName = goodsName;
@@ -160,6 +161,12 @@ public class GoodsRequest {
         this.unit = unit;
         this.dateOfReceiving = dateOfReceiving;
         this.note = note;
+        this.responsibleUnit = responsibleUnit;
+        this.dateOfGeneralRequest = dateOfGeneralRequest;
+        this.supply = supply;
+        this.sent = sent;
+        this.progressMark = progressMark;
+        this.comments = comments;
     }
 
     public GoodsRequest() {

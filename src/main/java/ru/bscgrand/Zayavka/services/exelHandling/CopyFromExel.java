@@ -7,9 +7,7 @@ import ru.bscgrand.Zayavka.Models.GoodsRequest;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CopyFromExel {
 
@@ -36,7 +34,10 @@ public class CopyFromExel {
             List<XSSFRow> newGoodsRequests = readFromExcel(previousDate);
             for (XSSFRow goodsRequest : newGoodsRequests) {
                 GoodsRequest currentGoodsRequest = new GoodsRequest();
-                currentGoodsRequest.setDateOfPurchaseRequest(goodsRequest.getCell(0).getDateCellValue());
+                Date date = goodsRequest.getCell(0).getDateCellValue();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                currentGoodsRequest.setDateOfPurchaseRequest(calendar);
                 String info = goodsRequest.getCell(1).getStringCellValue() +
                         goodsRequest.getCell(2).getStringCellValue() +
                         goodsRequest.getCell(3).getStringCellValue();
@@ -44,7 +45,9 @@ public class CopyFromExel {
                 currentGoodsRequest.setGoodsName(goodsRequest.getCell(4).getStringCellValue());
                 currentGoodsRequest.setAmount(goodsRequest.getCell(5).getNumericCellValue());
                 currentGoodsRequest.setUnit(goodsRequest.getCell(6).getStringCellValue());
-                currentGoodsRequest.setDateOfReceiving(goodsRequest.getCell(7).getDateCellValue());
+                date = goodsRequest.getCell(7).getDateCellValue();
+                calendar.setTime(date);
+                currentGoodsRequest.setDateOfReceiving(calendar);
                 currentGoodsRequest.setNote(goodsRequest.getCell(8).getStringCellValue());
                 currentGoodsRequest.setResponsibleUnit("");
                 currentGoodsRequest.setDateOfGeneralRequest(null);
