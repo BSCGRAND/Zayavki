@@ -10,6 +10,15 @@ public class Brigada {
     private int id;
     private int teamNumber;
     private String teamEmail;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getTeamNumber() {
         return teamNumber;
@@ -27,9 +36,10 @@ public class Brigada {
         this.teamEmail = teamEmail;
     }
 
-    public Brigada(int teamNumber, String teamEmail) {
+    public Brigada(int teamNumber, String teamEmail, String name) {
         this.teamNumber = teamNumber;
         this.teamEmail = teamEmail;
+        this.name = name;
     }
 
     public Brigada() {
