@@ -9,6 +9,8 @@ import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +19,18 @@ import java.util.List;
 @Component
 public class ReadExel {
     public static List<GoodsRequest> read(File file) throws IOException {
+
+        String dateString = "01 01 2000";
+        SimpleDateFormat ndf = new SimpleDateFormat("dd MM yyyy");
+        Date nullDate = null;
+        try {
+            nullDate = ndf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar nullCalendar = Calendar.getInstance();
+        nullCalendar.setTime(nullDate);
+
         XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
         XSSFSheet sh = wb.getSheetAt(0);
         List<XSSFRow> goodsRequestsRows = new ArrayList<>();
@@ -46,11 +60,11 @@ public class ReadExel {
                 calendar.setTime(date);
                 currentGoodsRequest.setDateOfReceiving(calendar);
             } catch (NullPointerException npe){
-                currentGoodsRequest.setDateOfReceiving(null);
+                currentGoodsRequest.setDateOfReceiving(nullCalendar);
             }
             currentGoodsRequest.setNote(row.getCell(8).getStringCellValue());
             currentGoodsRequest.setResponsibleUnit("");
-            currentGoodsRequest.setDateOfGeneralRequest(null);
+            currentGoodsRequest.setDateOfGeneralRequest(nullCalendar);
             currentGoodsRequest.setSupply(false);
             currentGoodsRequest.setSent(false);
             currentGoodsRequest.setProgressMark(false);
