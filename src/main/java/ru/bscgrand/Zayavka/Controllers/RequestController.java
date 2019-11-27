@@ -55,7 +55,7 @@ public class RequestController {
     @PutMapping("/scan")
     public String scanForUpdate() {
         String dateString = "18 11 2019";
-        SimpleDateFormat df = new SimpleDateFormat("yyyy MM dd");
+        SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy");
         Date date = null;
         try {
             date = df.parse(dateString);
