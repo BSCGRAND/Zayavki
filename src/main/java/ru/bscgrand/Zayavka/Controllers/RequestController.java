@@ -56,28 +56,28 @@ public class RequestController {
 //    @PutMapping("/add")
 //    public String putGoodsRequest()
 
-    @PutMapping("/scan")
-    public String scanForUpdate() {
-        String dateString = "18 11 2019";
-        SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy");
-        Date date = null;
-        try {
-            date = df.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-//        путь к файлу (потом  будет в RequestBody)
-        File file = new File("");
-        List<GoodsRequest> allInFile = new ArrayList<>();
-        try {
-            allInFile = new ReadExel().read(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        new CopyFromExel().copyNew(calendar, allInFile);
-        new UpdateDateOfReceiving().update(calendar, allInFile);
-        return "REQUESTS UPDATE SUCCESS";
-    }
+//    @PutMapping("/scan")
+//    public String scanForUpdate() {
+////        String dateString = "18 11 2019";
+////        SimpleDateFormat df = new SimpleDateFormat("dd MM yyyy");
+////        Date date = null;
+////        try {
+////            date = df.parse(dateString);
+////        } catch (ParseException e) {
+////            e.printStackTrace();
+////        }
+////        Calendar calendar = Calendar.getInstance();
+////        calendar.setTime(date);
+////        путь к файлу (потом  будет в RequestBody)
+//        File file = new File("");
+//        List<GoodsRequest> allInFile = new ArrayList<>();
+//        try {
+//            allInFile = new ReadExel().read(file);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        new CopyFromExel().copyNew(calendar, allInFile);
+//        new UpdateDateOfReceiving().update(calendar, allInFile);
+//        return "REQUESTS UPDATE SUCCESS";
+//    }
 }

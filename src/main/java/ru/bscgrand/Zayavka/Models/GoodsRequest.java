@@ -1,8 +1,10 @@
 package ru.bscgrand.Zayavka.Models;
 
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "goodsRequest")
@@ -11,7 +13,7 @@ public class GoodsRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 //    Дата подачи заявка
-    private Calendar dateOfPurchaseRequest;
+    private LocalDate dateOfPurchaseRequest;
 
 //   Подразделение подающее заявку
     private String subdivision;
@@ -32,7 +34,8 @@ public class GoodsRequest {
     private String unit;
 
 //    Дата получения на объекте
-    private Calendar dateOfReceiving;
+    //@Nullable
+    private LocalDate dateOfReceiving;
 
 //    Примечание
     private String note;
@@ -41,7 +44,7 @@ public class GoodsRequest {
     private String responsibleUnit;
 
 //    Дата формирования общей заявки на закуп
-    private Calendar dateOfGeneralRequest;
+    private LocalDate dateOfGeneralRequest;
 
 //    Поставка
     private boolean supply;
@@ -63,7 +66,7 @@ public class GoodsRequest {
         this.responsibleUnit = responsibleUnit;
     }
 
-    public void setDateOfGeneralRequest(Calendar dateOfGeneralRequest) {
+    public void setDateOfGeneralRequest(LocalDate dateOfGeneralRequest) {
         this.dateOfGeneralRequest = dateOfGeneralRequest;
     }
 
@@ -83,7 +86,7 @@ public class GoodsRequest {
         this.comments = comments;
     }
 
-    public void setDateOfPurchaseRequest(Calendar dateOfPurchaseRequest) {
+    public void setDateOfPurchaseRequest(LocalDate dateOfPurchaseRequest) {
         this.dateOfPurchaseRequest = dateOfPurchaseRequest;
     }
 
@@ -111,7 +114,7 @@ public class GoodsRequest {
         this.unit = unit;
     }
 
-    public void setDateOfReceiving(Calendar dateOfReceiving) {
+    public void setDateOfReceiving(LocalDate dateOfReceiving) {
         this.dateOfReceiving = dateOfReceiving;
     }
 
@@ -135,7 +138,7 @@ public class GoodsRequest {
         return oilfieldName;
     }
 
-    public Calendar getDateOfGeneralRequest() {
+    public LocalDate getDateOfGeneralRequest() {
         return dateOfGeneralRequest;
     }
 
@@ -155,7 +158,7 @@ public class GoodsRequest {
         return comments;
     }
 
-    public Calendar getDateOfPurchaseRequest() {
+    public LocalDate getDateOfPurchaseRequest() {
         return dateOfPurchaseRequest;
     }
 
@@ -171,7 +174,7 @@ public class GoodsRequest {
         return unit;
     }
 
-    public Calendar getDateOfReceiving() {
+    public LocalDate getDateOfReceiving() {
         return dateOfReceiving;
     }
 
@@ -179,7 +182,11 @@ public class GoodsRequest {
         return note;
     }
 
-    public GoodsRequest(Calendar dateOfPurchaseRequest, String subdivision, String fullName, String oilfieldName, String goodsName, double amount, String unit, Calendar dateOfReceiving, String note, String responsibleUnit, Calendar dateOfGeneralRequest, boolean supply, boolean sent, boolean progressMark, String comments) {
+    public GoodsRequest(LocalDate dateOfPurchaseRequest, String subdivision, String fullName,
+                        String oilfieldName, String goodsName, double amount, String unit,
+                        LocalDate dateOfReceiving, String note, String responsibleUnit,
+                        LocalDate dateOfGeneralRequest, boolean supply, boolean sent,
+                        boolean progressMark, String comments) {
         this.dateOfPurchaseRequest = dateOfPurchaseRequest;
         this.subdivision = subdivision;
         this.fullName = fullName;

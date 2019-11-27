@@ -9,15 +9,14 @@ import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Component
 public class ReadExel {
     public static List<GoodsRequest> read(File file) throws IOException {
-
+        final LocalDate nullDate = LocalDate.of(2000,01,01);
         XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
         XSSFSheet sh = wb.getSheetAt(0);
         List<XSSFRow> goodsRequestsRows = new ArrayList<>();
@@ -32,10 +31,12 @@ public class ReadExel {
         List<GoodsRequest> goodsRequests = new ArrayList<>();
         for (XSSFRow row : goodsRequestsRows) {
             GoodsRequest currentGoodsRequest = new GoodsRequest();
-            Date date = row.getCell(0).getDateCellValue();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            currentGoodsRequest.setDateOfPurchaseRequest(calendar);
+//            Date date = row.getCell(0).getDateCellValue();
+            LocalDate date = row.getCell(0).getLocalDateTimeCellValue().toLocalDate();
+//            System.out.println("date from readexcel " + date);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(date);
+            currentGoodsRequest.setDateOfPurchaseRequest(date);
             currentGoodsRequest.setSubdivision(row.getCell(1).getStringCellValue());
             currentGoodsRequest.setFullName(row.getCell(2).getStringCellValue());
             currentGoodsRequest.setOilfieldName(row.getCell(3).getStringCellValue());
@@ -43,21 +44,23 @@ public class ReadExel {
             currentGoodsRequest.setAmount(row.getCell(5).getNumericCellValue());
             currentGoodsRequest.setUnit(row.getCell(6).getStringCellValue());
             try{
-                date = row.getCell(7).getDateCellValue();
-                calendar.setTime(date);
-                currentGoodsRequest.setDateOfReceiving(calendar);
+//                date = row.getCell(7).getDateCellValue();
+//                calendar.setTime(date);
+                currentGoodsRequest.setDateOfReceiving(date);
             } catch (NullPointerException npe){
-                currentGoodsRequest.setDateOfReceiving(null);
+                currentGoodsRequest.setDateOfReceiving(nullDate);
             }
             currentGoodsRequest.setNote(row.getCell(8).getStringCellValue());
             currentGoodsRequest.setResponsibleUnit("");
-            currentGoodsRequest.setDateOfGeneralRequest(null);
+            currentGoodsRequest.setDateOfGeneralRequest(nullDate);
             currentGoodsRequest.setSupply(false);
             currentGoodsRequest.setSent(false);
             currentGoodsRequest.setProgressMark(false);
             currentGoodsRequest.setComments("");
+//            System.out.println(currentGoodsRequest.toString());
             goodsRequests.add(currentGoodsRequest);
         }
+
         return goodsRequests;
         }
 }

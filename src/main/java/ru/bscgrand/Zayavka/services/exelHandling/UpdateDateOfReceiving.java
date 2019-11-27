@@ -5,17 +5,17 @@ import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
 
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 public class UpdateDateOfReceiving {
     @Autowired
     GoodsRequestRepository goodsRequestRepository;
 
-    public void update(Calendar calendar, List<GoodsRequest> goodsRequests) {
+    public void update(LocalDate date, List<GoodsRequest> goodsRequests) {
 
         for (GoodsRequest goodsRequest : goodsRequests) {
-            if (!calendar.before(goodsRequest.getDateOfPurchaseRequest())
+            if (!date.isBefore(goodsRequest.getDateOfPurchaseRequest())
                     && goodsRequest.getDateOfReceiving() != null) {
                 GoodsRequest requestFromDB =
                         goodsRequestRepository.getByDateOfPurchaseRequestAndSubdivisionAndGoodsName(
