@@ -42,18 +42,9 @@ public class ScheduledTasks {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
                     LocalDate dateFormatted = LocalDate.parse(dateString,dtf);
                     List<GoodsRequest> newGoodsRequests;
-                    try {
-                        newGoodsRequests = readExcel.read(excelFile);
-                        copyFromExcel.copyNew(dateFormatted, newGoodsRequests);
-                        updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-
-//                    for (GoodsRequest gr : newGoodsRequests) {
-//                        System.out.println(gr.toString());
-//                    }
-
+                    newGoodsRequests = readExcel.read(excelFile);
+                    copyFromExcel.copyNew(dateFormatted, newGoodsRequests);
+//                    updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
                 }

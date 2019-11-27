@@ -15,50 +15,51 @@ import java.util.List;
 
 @Component
 public class ReadExcel {
-    public List<GoodsRequest> read(File file) throws IOException {
+
+    public List<GoodsRequest> read(File file) {
         final LocalDate nullDate = LocalDate.of(2000,1,1);
-        XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
-        XSSFSheet sh = wb.getSheetAt(0);
-        List<XSSFRow> goodsRequestsRows = new ArrayList<>();
-        int i=1;
-        while (true) {
-            XSSFRow row = sh.getRow(i);
-            String tmp = row.getCell(1).getStringCellValue();
-            if (tmp.equals("")) break;
-            goodsRequestsRows.add(row);
-            i++;
-        }
         List<GoodsRequest> goodsRequests = new ArrayList<>();
-        for (XSSFRow row : goodsRequestsRows) {
-            GoodsRequest currentGoodsRequest = new GoodsRequest();
-//            Date date = row.getCell(0).getDateCellValue();
-            LocalDate date = row.getCell(0).getLocalDateTimeCellValue().toLocalDate();
-//            System.out.println("date from readexcel " + date);
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(date);
-            currentGoodsRequest.setDateOfPurchaseRequest(date);
-            currentGoodsRequest.setSubdivision(row.getCell(1).getStringCellValue());
-            currentGoodsRequest.setFullName(row.getCell(2).getStringCellValue());
-            currentGoodsRequest.setOilfieldName(row.getCell(3).getStringCellValue());
-            currentGoodsRequest.setGoodsName(row.getCell(4).getStringCellValue());
-            currentGoodsRequest.setAmount(row.getCell(5).getNumericCellValue());
-            currentGoodsRequest.setUnit(row.getCell(6).getStringCellValue());
-            try{
-//                date = row.getCell(7).getDateCellValue();
-//                calendar.setTime(date);
-                currentGoodsRequest.setDateOfReceiving(date);
-            } catch (NullPointerException npe){
-                currentGoodsRequest.setDateOfReceiving(nullDate);
+
+        //try-with-resources
+        try(XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file))){
+            XSSFSheet sh = wb.getSheetAt(0);
+            List<XSSFRow> goodsRequestsRows = new ArrayList<>();
+            int i=1;
+            while (true) {
+                XSSFRow row = sh.getRow(i);
+                String tmp = row.getCell(1).getStringCellValue();
+                if (tmp.equals("")) break;
+                goodsRequestsRows.add(row);
+                i++;
             }
-            currentGoodsRequest.setNote(row.getCell(8).getStringCellValue());
-            currentGoodsRequest.setResponsibleUnit("");
-            currentGoodsRequest.setDateOfGeneralRequest(nullDate);
-            currentGoodsRequest.setSupply(false);
-            currentGoodsRequest.setSent(false);
-            currentGoodsRequest.setProgressMark(false);
-            currentGoodsRequest.setComments("");
-//            System.out.println(currentGoodsRequest.toString());
-            goodsRequests.add(currentGoodsRequest);
+            for (XSSFRow row : goodsRequestsRows) {
+                LocalDate date = row.getCell(0).getLocalDateTimeCellValue().toLocalDate();
+                GoodsRequest currentGoodsRequest = new GoodsRequest(date,row.getCell(1).getStringCellValue(),
+                        row.getCell(2).getStringCellValue(),row.getCell(3).getStringCellValue(),
+                        row.getCell(4).getStringCellValue(),row.getCell(5).getNumericCellValue(),
+                        row.getCell(6).getStringCellValue(),date,row.getCell(8).getStringCellValue(),
+                        "",nullDate,false,false,false,"");
+
+
+//                currentGoodsRequest.setDateOfPurchaseRequest(date);
+//                currentGoodsRequest.setSubdivision(row.getCell(1).getStringCellValue());
+//                currentGoodsRequest.setFullName(row.getCell(2).getStringCellValue());
+//                currentGoodsRequest.setOilfieldName(row.getCell(3).getStringCellValue());
+//                currentGoodsRequest.setGoodsName(row.getCell(4).getStringCellValue());
+//                currentGoodsRequest.setAmount(row.getCell(5).getNumericCellValue());
+//                currentGoodsRequest.setUnit(row.getCell(6).getStringCellValue());
+//                currentGoodsRequest.setDateOfReceiving(date);
+//                currentGoodsRequest.setNote(row.getCell(8).getStringCellValue());
+//                currentGoodsRequest.setResponsibleUnit("");
+//                currentGoodsRequest.setDateOfGeneralRequest(nullDate);
+//                currentGoodsRequest.setSupply(false);
+//                currentGoodsRequest.setSent(false);
+//                currentGoodsRequest.setProgressMark(false);
+//                currentGoodsRequest.setComments("");
+                goodsRequests.add(currentGoodsRequest);
+            }
+        } catch (IOException ex){
+            ex.printStackTrace();
         }
 
         return goodsRequests;
