@@ -4,24 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
-import ru.bscgrand.Zayavka.services.exelHandling.CopyFromExel;
-import ru.bscgrand.Zayavka.services.exelHandling.ReadExel;
-import ru.bscgrand.Zayavka.services.exelHandling.UpdateDateOfReceiving;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @RestController
 @RequestMapping("/goods")
 public class RequestController {
 
+
+    private final GoodsRequestRepository goodsRequestRepository;
     @Autowired
-    GoodsRequestRepository goodsRequestRepository;
+    public RequestController(GoodsRequestRepository goodsRequestRepository){
+        this.goodsRequestRepository = goodsRequestRepository;
+    }
 
     @GetMapping("/all")
     public List<GoodsRequest> getAllGoodsRequest(){
@@ -76,7 +71,7 @@ public class RequestController {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//        new CopyFromExel().copyNew(calendar, allInFile);
+//        new CopyFromExcel().copyNew(calendar, allInFile);
 //        new UpdateDateOfReceiving().update(calendar, allInFile);
 //        return "REQUESTS UPDATE SUCCESS";
 //    }

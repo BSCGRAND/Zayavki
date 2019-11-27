@@ -1,16 +1,21 @@
 package ru.bscgrand.Zayavka.services.exelHandling;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
 
 
 import java.time.LocalDate;
 import java.util.List;
-
+@Component
 public class UpdateDateOfReceiving {
+
+    private final GoodsRequestRepository goodsRequestRepository;
     @Autowired
-    GoodsRequestRepository goodsRequestRepository;
+    public UpdateDateOfReceiving(GoodsRequestRepository goodsRequestRepository){
+        this.goodsRequestRepository = goodsRequestRepository;
+    }
 
     public void update(LocalDate date, List<GoodsRequest> goodsRequests) {
 

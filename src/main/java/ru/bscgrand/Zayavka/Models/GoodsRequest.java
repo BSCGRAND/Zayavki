@@ -11,6 +11,7 @@ import java.util.Calendar;
 public class GoodsRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private long id;
 //    Дата подачи заявка
     private LocalDate dateOfPurchaseRequest;

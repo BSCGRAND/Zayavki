@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ReadExel {
-    public static List<GoodsRequest> read(File file) throws IOException {
-        final LocalDate nullDate = LocalDate.of(2000,01,01);
+public class ReadExcel {
+    public List<GoodsRequest> read(File file) throws IOException {
+        final LocalDate nullDate = LocalDate.of(2000,1,1);
         XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
         XSSFSheet sh = wb.getSheetAt(0);
         List<XSSFRow> goodsRequestsRows = new ArrayList<>();

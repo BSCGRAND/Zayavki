@@ -1,24 +1,35 @@
 package ru.bscgrand.Zayavka.services.ExcelReadScheduling;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
-import ru.bscgrand.Zayavka.services.exelHandling.CopyFromExel;
-import ru.bscgrand.Zayavka.services.exelHandling.ReadExel;
+import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
+import ru.bscgrand.Zayavka.services.exelHandling.CopyFromExcel;
+import ru.bscgrand.Zayavka.services.exelHandling.ReadExcel;
 import ru.bscgrand.Zayavka.services.exelHandling.UpdateDateOfReceiving;
+
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
 public class ScheduledTasks {
+    //---------------------DI----------------------------------//
+    private final CopyFromExcel copyFromExcel;
+    private final UpdateDateOfReceiving updateDateOfReceiving;
+    private final ReadExcel readExcel;
+    @Autowired
+    public ScheduledTasks(CopyFromExcel copyFromExcel, UpdateDateOfReceiving updateDateOfReceiving, ReadExcel readExcel){
+        this.copyFromExcel = copyFromExcel;
+        this.updateDateOfReceiving = updateDateOfReceiving;
+        this.readExcel = readExcel;
+    }
+    //--------------------------------------------------------//
     private final String path = "E:\\TestZayavki";
-
 
     @Scheduled(fixedRate = 50000)
     public void readExcel() {
@@ -30,15 +41,11 @@ public class ScheduledTasks {
                     String dateString = "10 11 2019";
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
                     LocalDate dateFormatted = LocalDate.parse(dateString,dtf);
-//                    System.out.println("date from Scheduled tasts: " + dateFormatted);
                     List<GoodsRequest> newGoodsRequests;
                     try {
-                        newGoodsRequests = ReadExel.read(excelFile);
-                        CopyFromExel cp = new CopyFromExel();
-//                        System.out.println(newGoodsRequests);
-                        cp.copyNew(dateFormatted, newGoodsRequests);
-                        //UpdateDateOfReceiving updateDateOfReceiving = new UpdateDateOfReceiving();
-                        //updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
+                        newGoodsRequests = readExcel.read(excelFile);
+                        copyFromExcel.copyNew(dateFormatted, newGoodsRequests);
+                        updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -49,8 +56,6 @@ public class ScheduledTasks {
 
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
-
-
                 }
             }
         }
