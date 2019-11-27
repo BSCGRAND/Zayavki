@@ -3,10 +3,11 @@ package ru.bscgrand.Zayavka.services.exelHandling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
-import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
+import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
 
 import java.time.LocalDate;
 import java.util.*;
+
 @Component
 public class CopyFromExcel {
 
@@ -20,7 +21,7 @@ public class CopyFromExcel {
     public void copyNew(LocalDate date, List<GoodsRequest> goodsRequests) {
 
         for (GoodsRequest goodsRequest : goodsRequests) {
-            if (date.isBefore(goodsRequest.getDateOfPurchaseRequest())) goodsRequestRepository.save(goodsRequest);
+            if (date.isBefore(goodsRequest.getDateOfPurchaseRequest())) goodsRequestRepository.saveAndFlush(goodsRequest);
         }
     }
 

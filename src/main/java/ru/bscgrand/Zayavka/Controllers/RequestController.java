@@ -3,7 +3,7 @@ package ru.bscgrand.Zayavka.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
-import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
+import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
 
 import java.util.*;
 
