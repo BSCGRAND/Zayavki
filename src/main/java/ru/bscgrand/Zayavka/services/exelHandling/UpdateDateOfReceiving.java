@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class UpdateDateOfReceiving {
@@ -12,8 +15,21 @@ public class UpdateDateOfReceiving {
     GoodsRequestRepository goodsRequestRepository;
 
     public void update(Calendar calendar, List<GoodsRequest> goodsRequests) {
+
+        String dateString = "01 01 2000";
+        SimpleDateFormat ndf = new SimpleDateFormat("dd MM yyyy");
+        Date nullDate = null;
+        try {
+            nullDate = ndf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar nullCalendar = Calendar.getInstance();
+        nullCalendar.setTime(nullDate);
+
         for (GoodsRequest goodsRequest : goodsRequests) {
-            if (!calendar.before(goodsRequest.getDateOfPurchaseRequest()) && goodsRequest.getDateOfReceiving() != null) {
+            if (!calendar.before(goodsRequest.getDateOfPurchaseRequest())
+                    && goodsRequest.getDateOfReceiving().equals(nullDate)) {
                 GoodsRequest requestFromDB =
                         goodsRequestRepository.getByDateOfPurchaseRequestAndSubdivisionAndGoodsName(
                                 goodsRequest.getDateOfPurchaseRequest(),
