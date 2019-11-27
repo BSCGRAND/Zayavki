@@ -13,7 +13,7 @@ public class CopyFromExel {
     public void copyNew(Calendar calendar, List<GoodsRequest> goodsRequests) {
         for (GoodsRequest goodsRequest : goodsRequests) {
             if (calendar.before(goodsRequest.getDateOfPurchaseRequest())) {
-                goodsRequestRepository.save(goodsRequest);
+                goodsRequestRepository.saveAndFlush(goodsRequest);
             }
         }
     }

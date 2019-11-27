@@ -25,7 +25,7 @@ public class UpdateDateOfReceiving {
                     requestFromDB.setDateOfReceiving(goodsRequest.getDateOfReceiving());
                 }
                 goodsRequestRepository.deleteById(requestFromDB.getId());
-                goodsRequestRepository.save(requestFromDB);
+                goodsRequestRepository.saveAndFlush(requestFromDB);
             }
         }
     }

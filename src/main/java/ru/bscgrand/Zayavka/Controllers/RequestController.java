@@ -49,7 +49,7 @@ public class RequestController {
         newGoodsRequest.setGoodsName(goodsRequest.getGoodsName());
         newGoodsRequest.setUnit(goodsRequest.getUnit());
         newGoodsRequest.setDateOfReceiving(goodsRequest.getDateOfReceiving());
-        goodsRequestRepository.save(newGoodsRequest);
+        goodsRequestRepository.saveAndFlush(newGoodsRequest);
         return "SAVE SUCCESS";
     }
     // Добавить заявку из экселя

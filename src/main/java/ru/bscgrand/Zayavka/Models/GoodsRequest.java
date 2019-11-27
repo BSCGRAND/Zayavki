@@ -199,4 +199,26 @@ public class GoodsRequest {
 
     public GoodsRequest() {
     }
+
+    @Override
+    public String toString() {
+        return "GoodsRequest{" +
+                "id=" + id +
+                ", dateOfPurchaseRequest=" + dateOfPurchaseRequest +
+                ", subdivision='" + subdivision + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", oilfieldName='" + oilfieldName + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", amount=" + amount +
+                ", unit='" + unit + '\'' +
+                ", dateOfReceiving=" + dateOfReceiving +
+                ", note='" + note + '\'' +
+                ", responsibleUnit='" + responsibleUnit + '\'' +
+                ", dateOfGeneralRequest=" + dateOfGeneralRequest +
+                ", supply=" + supply +
+                ", sent=" + sent +
+                ", progressMark=" + progressMark +
+                ", comments='" + comments + '\'' +
+                '}';
+    }
 }

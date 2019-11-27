@@ -3,6 +3,7 @@ package ru.bscgrand.Zayavka.services.exelHandling;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class ReadExel {
     public static List<GoodsRequest> read(File file) throws IOException {
         XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
