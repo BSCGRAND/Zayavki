@@ -23,8 +23,8 @@ public class ReadExel {
         int i=1;
         while (true) {
             XSSFRow row = sh.getRow(i);
-            Date date = row.getCell(0).getDateCellValue();
-            if (date == null) break;
+            String tmp = row.getCell(1).getStringCellValue();
+            if (tmp.equals("")) break;
             goodsRequestsRows.add(row);
             i++;
         }
