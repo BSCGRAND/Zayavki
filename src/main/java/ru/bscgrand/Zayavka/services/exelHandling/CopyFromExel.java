@@ -39,10 +39,9 @@ public class CopyFromExel {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
                 currentGoodsRequest.setDateOfPurchaseRequest(calendar);
-                String info = goodsRequest.getCell(1).getStringCellValue() +
-                        goodsRequest.getCell(2).getStringCellValue() +
-                        goodsRequest.getCell(3).getStringCellValue();
-                currentGoodsRequest.setInfo(info);
+                currentGoodsRequest.setSubdivision(goodsRequest.getCell(1).getStringCellValue());
+                currentGoodsRequest.setFullName(goodsRequest.getCell(2).getStringCellValue());
+                currentGoodsRequest.setOilfieldName(goodsRequest.getCell(3).getStringCellValue());
                 currentGoodsRequest.setGoodsName(goodsRequest.getCell(4).getStringCellValue());
                 currentGoodsRequest.setAmount(goodsRequest.getCell(5).getNumericCellValue());
                 currentGoodsRequest.setUnit(goodsRequest.getCell(6).getStringCellValue());
@@ -53,8 +52,6 @@ public class CopyFromExel {
                 } catch (NullPointerException npe){
                     currentGoodsRequest.setDateOfReceiving(null);
                 }
-
-
                 currentGoodsRequest.setNote(goodsRequest.getCell(8).getStringCellValue());
                 currentGoodsRequest.setResponsibleUnit("");
                 currentGoodsRequest.setDateOfGeneralRequest(null);

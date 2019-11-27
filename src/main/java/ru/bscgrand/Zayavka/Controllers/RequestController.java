@@ -40,7 +40,9 @@ public class RequestController {
         GoodsRequest newGoodsRequest = new GoodsRequest();
         newGoodsRequest.setAmount(goodsRequest.getAmount());
         newGoodsRequest.setDateOfPurchaseRequest(goodsRequest.getDateOfPurchaseRequest());
-        newGoodsRequest.setInfo(goodsRequest.getInfo());
+        newGoodsRequest.setSubdivision(goodsRequest.getSubdivision());
+        newGoodsRequest.setFullName(goodsRequest.getFullName());
+        newGoodsRequest.setOilfieldName(goodsRequest.getOilfieldName());
         newGoodsRequest.setNote(goodsRequest.getNote());
         newGoodsRequest.setGoodsName(goodsRequest.getGoodsName());
         newGoodsRequest.setUnit(goodsRequest.getUnit());

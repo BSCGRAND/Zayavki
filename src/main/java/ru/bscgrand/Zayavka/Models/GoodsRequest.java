@@ -13,8 +13,14 @@ public class GoodsRequest {
 //    Дата подачи заявка
     private Calendar dateOfPurchaseRequest;
 
-//    Подразделение подающее заявку + ФИО + Объект
-    private String info;
+//   Подразделение подающее заявку
+    private String subdivision;
+
+//   ФИО
+    private String fullName;
+
+//  Объект
+    private String oilfieldName;
 
 //    Наименование
     private String goodsName;
@@ -77,8 +83,16 @@ public class GoodsRequest {
         this.dateOfPurchaseRequest = dateOfPurchaseRequest;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setSubdivision(String subdivision) {
+        this.subdivision = subdivision;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setOilfieldName(String oilfieldName) {
+        this.oilfieldName = oilfieldName;
     }
 
     public void setGoodsName(String goodsName) {
@@ -105,6 +119,18 @@ public class GoodsRequest {
         return responsibleUnit;
     }
 
+    public String getSubdivision() {
+        return subdivision;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getOilfieldName() {
+        return oilfieldName;
+    }
+
     public Calendar getDateOfGeneralRequest() {
         return dateOfGeneralRequest;
     }
@@ -129,10 +155,6 @@ public class GoodsRequest {
         return dateOfPurchaseRequest;
     }
 
-    public String getInfo() {
-        return info;
-    }
-
     public String getGoodsName() {
         return goodsName;
     }
@@ -153,9 +175,11 @@ public class GoodsRequest {
         return note;
     }
 
-    public GoodsRequest(Calendar dateOfPurchaseRequest, String info, String goodsName, double amount, String unit, Calendar dateOfReceiving, String note, String responsibleUnit, Calendar dateOfGeneralRequest, boolean supply, boolean sent, boolean progressMark, String comments) {
+    public GoodsRequest(Calendar dateOfPurchaseRequest, String subdivision, String fullName, String oilfieldName, String goodsName, double amount, String unit, Calendar dateOfReceiving, String note, String responsibleUnit, Calendar dateOfGeneralRequest, boolean supply, boolean sent, boolean progressMark, String comments) {
         this.dateOfPurchaseRequest = dateOfPurchaseRequest;
-        this.info = info;
+        this.subdivision = subdivision;
+        this.fullName = fullName;
+        this.oilfieldName = oilfieldName;
         this.goodsName = goodsName;
         this.amount = amount;
         this.unit = unit;
