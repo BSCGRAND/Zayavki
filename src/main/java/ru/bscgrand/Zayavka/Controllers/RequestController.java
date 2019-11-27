@@ -5,14 +5,16 @@ import org.springframework.web.bind.annotation.*;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
 import ru.bscgrand.Zayavka.services.exelHandling.CopyFromExel;
+import ru.bscgrand.Zayavka.services.exelHandling.ReadExel;
+import ru.bscgrand.Zayavka.services.exelHandling.UpdateDateOfReceiving;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/goods")
@@ -64,10 +66,18 @@ public class RequestController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        List<GoodsRequest> addNewGoodsRequests = new CopyFromExel().addNewGoodsRequests(date);
-        for (GoodsRequest gr: addNewGoodsRequests) {
-            goodsRequestRepository.save(gr);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+//        путь к файлу (потом  будет в RequestBody)
+        File file = new File("");
+        List<GoodsRequest> allInFile = new ArrayList<>();
+        try {
+            allInFile = new ReadExel().read(file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        new CopyFromExel().copyNew(calendar, allInFile);
+        new UpdateDateOfReceiving().update(calendar, allInFile);
         return "REQUESTS UPDATE SUCCESS";
     }
 }

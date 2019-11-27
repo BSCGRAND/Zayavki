@@ -1,69 +1,21 @@
 package ru.bscgrand.Zayavka.services.exelHandling;
 
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
+import ru.bscgrand.Zayavka.Models.GoodsRequestRepository;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 
 public class CopyFromExel {
+    @Autowired
+    GoodsRequestRepository goodsRequestRepository;
 
-    private static List<XSSFRow> readFromExcel(Date previousDate) throws IOException {
-        XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream("E:\\Заявка Бурение 1.xlsx"));
-        XSSFSheet sh = wb.getSheetAt(0);
-        List<XSSFRow> newGoodsRequests = new ArrayList<>();
-        int i=1;
-        while (true) {
-            XSSFRow row = sh.getRow(i);
-            Date date = row.getCell(0).getDateCellValue();
-            if (date == null) break;
-            if (date.getTime() > previousDate.getTime()) {
-                newGoodsRequests.add(row);
+    public void copyNew(Calendar calendar, List<GoodsRequest> goodsRequests) {
+        for (GoodsRequest goodsRequest : goodsRequests) {
+            if (calendar.before(goodsRequest.getDateOfPurchaseRequest())) {
+                goodsRequestRepository.save(goodsRequest);
             }
-            i++;
         }
-        return newGoodsRequests;
     }
 
-    public List<GoodsRequest> addNewGoodsRequests(Date previousDate) {
-        List<GoodsRequest> addNewGoodsRequests = new ArrayList<>();
-        try {
-            List<XSSFRow> newGoodsRequests = readFromExcel(previousDate);
-            for (XSSFRow goodsRequest : newGoodsRequests) {
-                GoodsRequest currentGoodsRequest = new GoodsRequest();
-                Date date = goodsRequest.getCell(0).getDateCellValue();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                currentGoodsRequest.setDateOfPurchaseRequest(calendar);
-                currentGoodsRequest.setSubdivision(goodsRequest.getCell(1).getStringCellValue());
-                currentGoodsRequest.setFullName(goodsRequest.getCell(2).getStringCellValue());
-                currentGoodsRequest.setOilfieldName(goodsRequest.getCell(3).getStringCellValue());
-                currentGoodsRequest.setGoodsName(goodsRequest.getCell(4).getStringCellValue());
-                currentGoodsRequest.setAmount(goodsRequest.getCell(5).getNumericCellValue());
-                currentGoodsRequest.setUnit(goodsRequest.getCell(6).getStringCellValue());
-                try{
-                    date = goodsRequest.getCell(7).getDateCellValue();
-                    calendar.setTime(date);
-                    currentGoodsRequest.setDateOfReceiving(calendar);
-                } catch (NullPointerException npe){
-                    currentGoodsRequest.setDateOfReceiving(null);
-                }
-                currentGoodsRequest.setNote(goodsRequest.getCell(8).getStringCellValue());
-                currentGoodsRequest.setResponsibleUnit("");
-                currentGoodsRequest.setDateOfGeneralRequest(null);
-                currentGoodsRequest.setSupply(false);
-                currentGoodsRequest.setSent(false);
-                currentGoodsRequest.setProgressMark(false);
-                currentGoodsRequest.setComments("");
-                addNewGoodsRequests.add(currentGoodsRequest);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return addNewGoodsRequests;
-    }
 }

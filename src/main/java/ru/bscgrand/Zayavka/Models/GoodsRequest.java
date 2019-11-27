@@ -9,7 +9,7 @@ import java.util.Date;
 public class GoodsRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 //    Дата подачи заявка
     private Calendar dateOfPurchaseRequest;
 
@@ -54,6 +54,10 @@ public class GoodsRequest {
 
 //    Комментарии
     private String comments;
+
+    public long getId() {
+        return id;
+    }
 
     public void setResponsibleUnit(String responsibleUnit) {
         this.responsibleUnit = responsibleUnit;
