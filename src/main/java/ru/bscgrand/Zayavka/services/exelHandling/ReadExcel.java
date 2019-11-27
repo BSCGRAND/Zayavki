@@ -39,7 +39,7 @@ public class ReadExcel {
                         row.getCell(4).getStringCellValue(),row.getCell(5).getNumericCellValue(),
                         row.getCell(6).getStringCellValue(),date,row.getCell(8).getStringCellValue(),
                         "",nullDate,false,false,false,"");
-
+                goodsRequests.add(currentGoodsRequest);
 
 //                currentGoodsRequest.setDateOfPurchaseRequest(date);
 //                currentGoodsRequest.setSubdivision(row.getCell(1).getStringCellValue());
@@ -56,7 +56,6 @@ public class ReadExcel {
 //                currentGoodsRequest.setSent(false);
 //                currentGoodsRequest.setProgressMark(false);
 //                currentGoodsRequest.setComments("");
-                goodsRequests.add(currentGoodsRequest);
             }
         } catch (IOException ex){
             ex.printStackTrace();

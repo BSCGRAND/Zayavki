@@ -10,29 +10,17 @@ import java.util.*;
 @Component
 public class CopyFromExcel {
 
-    //Inject repository constructor-base
+    //---------------------------DI---------------------------------------
     private final GoodsRequestRepository goodsRequestRepository;
     @Autowired
     public CopyFromExcel(GoodsRequestRepository goodsRequestRepository){
         this.goodsRequestRepository = goodsRequestRepository;
     }
-
+    //--------------------------------------------------------------------
     public void copyNew(LocalDate date, List<GoodsRequest> goodsRequests) {
-//        System.out.println(goodsRequests);
+
         for (GoodsRequest goodsRequest : goodsRequests) {
-            if (date.isBefore(goodsRequest.getDateOfPurchaseRequest())) {
-
-//                System.out.println("date from copyfromexcel:  " + date);
-//                System.out.println(goodsRequest.toString());
-//                try {
-                System.out.println(goodsRequest.toString());
-                    goodsRequestRepository.save(goodsRequest);
-//                } catch (NullPointerException npe){
-//                    System.out.println(npe.getMessage());
-  //              }
-
-                //System.out.println(goodsRequest.toString());
-            }
+            if (date.isBefore(goodsRequest.getDateOfPurchaseRequest())) goodsRequestRepository.save(goodsRequest);
         }
     }
 
