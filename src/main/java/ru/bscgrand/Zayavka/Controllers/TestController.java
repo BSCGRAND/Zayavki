@@ -5,6 +5,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.bscgrand.Zayavka.Models.GoodsRequest;
+import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
 import ru.bscgrand.Zayavka.Models.Repositories.UserRepository;
 import ru.bscgrand.Zayavka.Models.User;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class TestController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    GoodsRequestRepository goodsRequestRepository;
 
     @GetMapping("/show")
     public List<User> getAllUsers(){
@@ -42,5 +46,9 @@ public class TestController {
         //printexcel = row.getCell(1);
         return row.getCell(2).getStringCellValue();
 
+    }
+    @GetMapping("/api/all")
+    public List<GoodsRequest> getApiGoodsRequest(){
+        return goodsRequestRepository.findAll();
     }
 }
