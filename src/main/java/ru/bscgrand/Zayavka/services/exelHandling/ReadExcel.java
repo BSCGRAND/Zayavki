@@ -34,28 +34,16 @@ public class ReadExcel {
             }
             for (XSSFRow row : goodsRequestsRows) {
                 LocalDate date = row.getCell(0).getLocalDateTimeCellValue().toLocalDate();
+                LocalDate dateOfReceiving = null;
+                try {
+                    dateOfReceiving = row.getCell(7).getLocalDateTimeCellValue().toLocalDate();
+                } catch (NullPointerException ignored) {}
                 GoodsRequest currentGoodsRequest = new GoodsRequest(date,row.getCell(1).getStringCellValue(),
                         row.getCell(2).getStringCellValue(),row.getCell(3).getStringCellValue(),
                         row.getCell(4).getStringCellValue(),row.getCell(5).getNumericCellValue(),
-                        row.getCell(6).getStringCellValue(),null,row.getCell(8).getStringCellValue(),
+                        row.getCell(6).getStringCellValue(),dateOfReceiving,row.getCell(8).getStringCellValue(),
                         "",null,false,false,false,"");
                 goodsRequests.add(currentGoodsRequest);
-
-//                currentGoodsRequest.setDateOfPurchaseRequest(date);
-//                currentGoodsRequest.setSubdivision(row.getCell(1).getStringCellValue());
-//                currentGoodsRequest.setFullName(row.getCell(2).getStringCellValue());
-//                currentGoodsRequest.setOilfieldName(row.getCell(3).getStringCellValue());
-//                currentGoodsRequest.setGoodsName(row.getCell(4).getStringCellValue());
-//                currentGoodsRequest.setAmount(row.getCell(5).getNumericCellValue());
-//                currentGoodsRequest.setUnit(row.getCell(6).getStringCellValue());
-//                currentGoodsRequest.setDateOfReceiving(date);
-//                currentGoodsRequest.setNote(row.getCell(8).getStringCellValue());
-//                currentGoodsRequest.setResponsibleUnit("");
-//                currentGoodsRequest.setDateOfGeneralRequest(nullDate);
-//                currentGoodsRequest.setSupply(false);
-//                currentGoodsRequest.setSent(false);
-//                currentGoodsRequest.setProgressMark(false);
-//                currentGoodsRequest.setComments("");
             }
         } catch (IOException ex){
             ex.printStackTrace();

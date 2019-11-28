@@ -33,10 +33,10 @@ public class ScheduledTasks {
     }
     //--------------------------------------------------------//
 
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRate = 5000)
     public void readExcel() {
-        String path = "E:\\TestZayavki";
-        String dateString = "11 11 2019";
+        String path = "C:\\Java\\TestZayavki";
+        String dateString = "06 11 2019";
 
         File dir = new File(path);
         if (dir.isDirectory()) {
@@ -48,6 +48,8 @@ public class ScheduledTasks {
                     newGoodsRequests = readExcel.read(excelFile);
                     copyFromExcel.copyNew(dateFormatted, newGoodsRequests);
                     updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
+//                    потом заменить удаление на копирование в архив
+                    excelFile.delete();
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
                 }

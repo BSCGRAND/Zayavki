@@ -35,7 +35,6 @@ public class GoodsRequest {
     private String unit;
 
 //    Дата получения на объекте
-    //@Nullable
     private LocalDate dateOfReceiving;
 
 //    Примечание
