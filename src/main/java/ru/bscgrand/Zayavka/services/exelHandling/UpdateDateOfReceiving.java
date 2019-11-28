@@ -28,6 +28,7 @@ public class UpdateDateOfReceiving {
                                 goodsRequest.getSubdivision(),
                                 goodsRequest.getGoodsName()
                         );
+                System.out.println(requestFromDB);
                 if (!requestFromDB.isSupply()) {
                     requestFromDB.setSupply(true);
                     requestFromDB.setDateOfReceiving(goodsRequest.getDateOfReceiving());

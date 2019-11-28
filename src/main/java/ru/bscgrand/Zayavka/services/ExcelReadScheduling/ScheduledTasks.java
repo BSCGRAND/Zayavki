@@ -23,12 +23,12 @@ public class ScheduledTasks {
 
     //---------------------DI----------------------------------//
     private final CopyFromExcel copyFromExcel;
-//    private final UpdateDateOfReceiving updateDateOfReceiving;
+    private final UpdateDateOfReceiving updateDateOfReceiving;
     private final ReadExcel readExcel;
     @Autowired
-    public ScheduledTasks(CopyFromExcel copyFromExcel, ReadExcel readExcel){
+    public ScheduledTasks(CopyFromExcel copyFromExcel, UpdateDateOfReceiving updateDateOfReceiving, ReadExcel readExcel){
         this.copyFromExcel = copyFromExcel;
-//        this.updateDateOfReceiving = updateDateOfReceiving;
+        this.updateDateOfReceiving = updateDateOfReceiving;
         this.readExcel = readExcel;
     }
     //--------------------------------------------------------//
@@ -47,7 +47,7 @@ public class ScheduledTasks {
                     List<GoodsRequest> newGoodsRequests;
                     newGoodsRequests = readExcel.read(excelFile);
                     copyFromExcel.copyNew(dateFormatted, newGoodsRequests);
-//                    updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
+                    updateDateOfReceiving.update(dateFormatted, newGoodsRequests);
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
                 }
