@@ -45,7 +45,6 @@ public class TestController {
         XSSFRow row = sh.getRow(1);
         //printexcel = row.getCell(1);
         return row.getCell(2).getStringCellValue();
-
     }
     @GetMapping("/api/all")
     public List<GoodsRequest> getApiGoodsRequest(){
