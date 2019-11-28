@@ -51,4 +51,15 @@ public class ReadExcel {
 
         return goodsRequests;
         }
+
+        public String getSubdivision(File file) {
+            String subdivision = "";
+            try(XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file))) {
+                XSSFSheet sh = wb.getSheetAt(0);
+                subdivision = wb.getSheetAt(0).getRow(1).getCell(1).getStringCellValue();
+            } catch (IOException ex){
+                ex.printStackTrace();
+            }
+            return subdivision;
+        }
 }
