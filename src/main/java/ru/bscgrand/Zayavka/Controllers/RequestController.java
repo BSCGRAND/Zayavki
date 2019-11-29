@@ -8,6 +8,7 @@ import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
 import java.util.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/goods")
 public class RequestController {
 
