@@ -1,10 +1,7 @@
 package ru.bscgrand.Zayavka.services.ExcelReadScheduling;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.bscgrand.Zayavka.Configurations.ExcelConfigProperties;
@@ -19,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption.*;
 import java.time.LocalDate;
 import java.util.*;
 
