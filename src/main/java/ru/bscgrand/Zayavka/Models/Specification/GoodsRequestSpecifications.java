@@ -6,7 +6,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.Specification.SearchCriteria;
+
+import java.time.LocalDate;
 
 
 public class GoodsRequestSpecifications implements Specification {
@@ -17,23 +21,42 @@ public class GoodsRequestSpecifications implements Specification {
         this.criteria = criteria;
     }
 
+    public static Specification<GoodsRequest> subdivisionIs(String subdivision) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root,
+                                         CriteriaQuery<?> criteriaQuery,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("subdivision"), subdivision);
+            }
+        };
+    }
+
+    public static Specification<GoodsRequest> dateOfPurchaseFrom(LocalDate localDate) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get("dateOfPurchaseRequest"), localDate);
+            }
+        };
+    }
+
     @Override
-    public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         if (criteria.getOperation().equalsIgnoreCase(">")) {
-            return builder.greaterThanOrEqualTo(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
+            return criteriaBuilder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
         }
         else if (criteria.getOperation().equalsIgnoreCase("<")) {
-            return builder.lessThanOrEqualTo(
-                    root.<String> get(criteria.getKey()), criteria.getValue().toString());
+            return criteriaBuilder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
         }
         else if (criteria.getOperation().equalsIgnoreCase(":")) {
-            if (root.get(criteria.getKey()).getJavaType() == String.class) {
-                return builder.like(
-                        root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
-            } else {
-                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
-            }
+            return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
+//            if (root.get(criteria.getKey()).getJavaType() == String.class) {
+//                return builder.like(
+//                        root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+//            } else {
+//                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+//            }
         }
         return null;
     }

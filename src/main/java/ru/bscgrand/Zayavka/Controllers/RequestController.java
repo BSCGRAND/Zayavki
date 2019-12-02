@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+import static ru.bscgrand.Zayavka.Models.Specification.GoodsRequestSpecifications.*;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/goods")
@@ -119,7 +121,7 @@ public class RequestController {
 
         GoodsRequestSpecifications spec1 = new GoodsRequestSpecifications(new SearchCriteria("subdivision", ":", subdivision));
         GoodsRequestSpecifications spec2 = new GoodsRequestSpecifications(new SearchCriteria("dateOfPurchaseRequest", ">", dateOfRequestFrom));
-        List<GoodsRequest> result = goodsRequestRepository.findAll(spec1);
+        List<GoodsRequest> result = goodsRequestRepository.findAll(dateOfPurchaseFrom(dateOfRequestFrom));
         return result;
     }
 
