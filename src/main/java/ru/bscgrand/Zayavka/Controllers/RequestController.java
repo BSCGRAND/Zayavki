@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
+import ru.bscgrand.Zayavka.Models.Specification.GoodsRequestSpecifications;
+import ru.bscgrand.Zayavka.Models.Specification.SearchCriteria;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -54,51 +56,51 @@ public class RequestController {
     }
 
     @GetMapping("api/find")
-    public List<GoodsRequest> getAllTest(
-            @RequestParam("subdivision") String subdivision,
-            @RequestParam("dateOfRequestFrom") String dateOfRequestFromStr,
-            @RequestParam("dateOfRequestTo") String dateOfRequestToStr,
-            @RequestParam("dateOfReceivingFrom") String dateOfReceivingFromStr,
-            @RequestParam("dateOfReceivingTo") String dateOfReceivingToStr,
-            @RequestParam("dateOfGeneralRequestFrom") String dateOfGeneralRequestFromStr,
-            @RequestParam("dateOfGeneralRequestTo") String dateOfGeneralRequestToStr,
-            @RequestParam("supply") String supplyStr,
-            @RequestParam("sent") String sentStr,
-            @RequestParam("progressMark") String progressMarkStr
-    ) {
+    public List<GoodsRequest> getAllTest(@RequestParam Map <String, String> allParams)
+     {
+        String subdivision = allParams.get("subdivision");
+        String dateOfRequestFromStr = allParams.get("dateOfRequestFrom");
+        String dateOfRequestToStr = allParams.get("dateOfRequestTo");
+        String dateOfReceivingFromStr = allParams.get("dateOfReceivingFrom");
+        String dateOfReceivingToStr = allParams.get("dateOfReceivingTo");
+        String dateOfGeneralRequestFromStr = allParams.get("dateOfGeneralRequestFrom");
+        String dateOfGeneralRequestToStr = allParams.get("dateOfGeneralRequestTo");
+        String supplyStr = allParams.get("supply");
+        String sentStr = allParams.get("sent");
+        String progressMarkStr = allParams.get("progressMark");
+        if (subdivision == null) subdivision = "Бригада бурения 1";
         LocalDate dateOfRequestFrom,dateOfRequestTo,dateOfReceivingFrom,dateOfReceivingTo,dateOfGeneralRequestFrom,dateOfGeneralRequestTo;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try{
             dateOfRequestFrom = LocalDate.parse(dateOfRequestFromStr, formatter);
         } catch (DateTimeParseException ew){
-            dateOfRequestFrom = null;
+            dateOfRequestFrom = LocalDate.MIN;
         }
         try{
-            dateOfRequestTo = LocalDate.parse(dateOfRequestFromStr, formatter);
+            dateOfRequestTo = LocalDate.parse(dateOfRequestToStr, formatter);
         } catch (DateTimeParseException ew){
-            dateOfRequestTo = null;
+            dateOfRequestTo = LocalDate.MAX;
         }
         try{
-            dateOfReceivingFrom = LocalDate.parse(dateOfRequestFromStr, formatter);
+            dateOfReceivingFrom = LocalDate.parse(dateOfReceivingFromStr, formatter);
         } catch (DateTimeParseException ew){
-            dateOfReceivingFrom = null;
+            dateOfReceivingFrom = LocalDate.MIN;
         }
         try{
-            dateOfReceivingTo = LocalDate.parse(dateOfRequestFromStr, formatter);
+            dateOfReceivingTo = LocalDate.parse(dateOfReceivingToStr, formatter);
         } catch (DateTimeParseException ew){
-            dateOfReceivingTo = null;
+            dateOfReceivingTo = LocalDate.MAX;
         }
         try{
-            dateOfGeneralRequestFrom = LocalDate.parse(dateOfRequestFromStr, formatter);
+            dateOfGeneralRequestFrom = LocalDate.parse(dateOfGeneralRequestFromStr, formatter);
         } catch (DateTimeParseException ew){
-            dateOfGeneralRequestFrom = null;
+            dateOfGeneralRequestFrom = LocalDate.MIN;
         }
         try{
-            dateOfGeneralRequestTo = LocalDate.parse(dateOfRequestFromStr, formatter);
+            dateOfGeneralRequestTo = LocalDate.parse(dateOfGeneralRequestToStr, formatter);
         } catch (DateTimeParseException ew){
-            dateOfGeneralRequestTo = null;
+            dateOfGeneralRequestTo = LocalDate.MAX;
         }
-
         boolean supply = false;
         if (supplyStr.equals("true")) supply = true;
         else if (supplyStr.equals("any")) {}
@@ -108,9 +110,17 @@ public class RequestController {
         boolean progressMark = false;
         if (progressMarkStr.equals("true")) progressMark = true;
         else if (supplyStr.equals("any")) {}
-        return goodsRequestRepository.getAllBySubdivisionAndDateOfPurchaseRequestAfterAndDateOfPurchaseRequestBeforeAndDateOfReceivingAfterAndDateOfReceivingBeforeAndDateOfGeneralRequestAfterAndDateOfGeneralRequestBeforeAndSupplyAndSentAndProgressMark(
-                subdivision, dateOfRequestFrom, dateOfRequestTo, dateOfReceivingFrom, dateOfReceivingTo,
-                dateOfGeneralRequestFrom, dateOfGeneralRequestTo, supply, sent, progressMark);
+
+//        return goodsRequestRepository.getAllByDateOfPurchaseRequestAfterAndDateOfPurchaseRequestBefore(dateOfRequestFrom, dateOfRequestTo);
+
+//        return goodsRequestRepository.getAllBySubdivisionAndDateOfPurchaseRequestAfterAndDateOfPurchaseRequestBeforeAndDateOfReceivingAfterAndDateOfReceivingBeforeAndDateOfGeneralRequestAfterAndDateOfGeneralRequestBeforeAndSupplyAndSentAndProgressMark(
+//                subdivision, dateOfRequestFrom, dateOfRequestTo, dateOfReceivingFrom, dateOfReceivingTo,
+//                dateOfGeneralRequestFrom, dateOfGeneralRequestTo, supply, sent, progressMark);
+
+        GoodsRequestSpecifications spec1 = new GoodsRequestSpecifications(new SearchCriteria("subdivision", ":", subdivision));
+        GoodsRequestSpecifications spec2 = new GoodsRequestSpecifications(new SearchCriteria("dateOfPurchaseRequest", ">", dateOfRequestFrom));
+        List<GoodsRequest> result = goodsRequestRepository.findAll(spec1);
+        return result;
     }
 
     // Добавить заявку из экселя

@@ -47,6 +47,11 @@ public class TestController {
         //printexcel = row.getCell(1);
         return row.getCell(2).getStringCellValue();
     }
+//    @GetMapping("/api/all")
+//    public List<GoodsRequest> getApiGoodsRequest(){
+//        return goodsRequestRepository.findAll();
+//    }
+
     @GetMapping("/api/all")
     public List<GoodsRequest> getApiGoodsRequest(){
         return goodsRequestRepository.findAll();
