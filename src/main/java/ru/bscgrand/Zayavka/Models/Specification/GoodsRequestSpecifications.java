@@ -8,6 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
+import ru.bscgrand.Zayavka.Models.GoodsRequest_;
 import ru.bscgrand.Zayavka.Models.Specification.SearchCriteria;
 
 import java.time.LocalDate;
@@ -36,7 +37,16 @@ public class GoodsRequestSpecifications implements Specification {
         return new Specification<GoodsRequest>() {
             @Override
             public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.greaterThanOrEqualTo(root.get("dateOfPurchaseRequest"), localDate);
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(GoodsRequest_.dateOfPurchaseRequest), localDate);
+            }
+        };
+    }
+
+    public static Specification<GoodsRequest> dateOfPurchaseTo(LocalDate localDateTo) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(GoodsRequest_.dateOfPurchaseRequest), localDateTo);
             }
         };
     }

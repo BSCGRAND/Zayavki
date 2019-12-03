@@ -14,6 +14,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static ru.bscgrand.Zayavka.Models.Specification.GoodsRequestSpecifications.*;
+import static ru.bscgrand.Zayavka.Models.Specification.GoodsRequestSpecifications.dateOfPurchaseTo;
 
 @RestController
 @CrossOrigin
@@ -113,15 +114,11 @@ public class RequestController {
         if (progressMarkStr.equals("true")) progressMark = true;
         else if (supplyStr.equals("any")) {}
 
-//        return goodsRequestRepository.getAllByDateOfPurchaseRequestAfterAndDateOfPurchaseRequestBefore(dateOfRequestFrom, dateOfRequestTo);
-
-//        return goodsRequestRepository.getAllBySubdivisionAndDateOfPurchaseRequestAfterAndDateOfPurchaseRequestBeforeAndDateOfReceivingAfterAndDateOfReceivingBeforeAndDateOfGeneralRequestAfterAndDateOfGeneralRequestBeforeAndSupplyAndSentAndProgressMark(
-//                subdivision, dateOfRequestFrom, dateOfRequestTo, dateOfReceivingFrom, dateOfReceivingTo,
-//                dateOfGeneralRequestFrom, dateOfGeneralRequestTo, supply, sent, progressMark);
-
         GoodsRequestSpecifications spec1 = new GoodsRequestSpecifications(new SearchCriteria("subdivision", ":", subdivision));
         GoodsRequestSpecifications spec2 = new GoodsRequestSpecifications(new SearchCriteria("dateOfPurchaseRequest", ">", dateOfRequestFrom));
-        List<GoodsRequest> result = goodsRequestRepository.findAll(dateOfPurchaseFrom(dateOfRequestFrom));
+         GoodsRequestSpecifications spec3 = new GoodsRequestSpecifications(new SearchCriteria("dateOfPurchaseRequest", "<", dateOfRequestTo));
+
+        List<GoodsRequest> result = goodsRequestRepository.findAll(where(dateOfPurchaseTo(dateOfRequestTo)).and(dateOfPurchaseFrom(dateOfRequestFrom)));
         return result;
     }
 
