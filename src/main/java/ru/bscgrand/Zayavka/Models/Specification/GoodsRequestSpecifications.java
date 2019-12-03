@@ -28,7 +28,7 @@ public class GoodsRequestSpecifications implements Specification {
             public Predicate toPredicate(Root<GoodsRequest> root,
                                          CriteriaQuery<?> criteriaQuery,
                                          CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("subdivision"), subdivision);
+                return criteriaBuilder.equal(root.get(GoodsRequest_.subdivision), subdivision);
             }
         };
     }
@@ -51,6 +51,73 @@ public class GoodsRequestSpecifications implements Specification {
         };
     }
 
+    public static Specification<GoodsRequest> dateOfReceivingFrom(LocalDate localDate) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(GoodsRequest_.dateOfReceiving), localDate);
+            }
+        };
+    }
+
+    public static Specification<GoodsRequest> dateOfReceivingTo(LocalDate localDateTo) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(GoodsRequest_.dateOfReceiving), localDateTo);
+            }
+        };
+    }
+
+    public static Specification<GoodsRequest> dateOfGeneralRequestFrom(LocalDate localDate) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(GoodsRequest_.dateOfGeneralRequest), localDate);
+            }
+        };
+    }
+
+    public static Specification<GoodsRequest> dateOfGeneralRequestTo(LocalDate localDateTo) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(GoodsRequest_.dateOfGeneralRequest), localDateTo);
+            }
+        };
+    }
+
+    public static Specification<GoodsRequest> supplyIs(Boolean supply) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root,
+                                         CriteriaQuery<?> criteriaQuery,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get(GoodsRequest_.supply), supply);
+            }
+        };
+    }
+    public static Specification<GoodsRequest> sentIs(Boolean sent) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root,
+                                         CriteriaQuery<?> criteriaQuery,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get(GoodsRequest_.sent), sent);
+            }
+        };
+    }
+    public static Specification<GoodsRequest> progressMarkIs(Boolean progressMark) {
+        return new Specification<GoodsRequest>() {
+            @Override
+            public Predicate toPredicate(Root<GoodsRequest> root,
+                                         CriteriaQuery<?> criteriaQuery,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get(GoodsRequest_.progressMark), progressMark);
+            }
+        };
+    }
+
     @Override
     public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         if (criteria.getOperation().equalsIgnoreCase(">")) {
@@ -61,12 +128,6 @@ public class GoodsRequestSpecifications implements Specification {
         }
         else if (criteria.getOperation().equalsIgnoreCase(":")) {
             return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
-//            if (root.get(criteria.getKey()).getJavaType() == String.class) {
-//                return builder.like(
-//                        root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
-//            } else {
-//                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
-//            }
         }
         return null;
     }

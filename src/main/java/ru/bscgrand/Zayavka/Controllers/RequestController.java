@@ -1,6 +1,7 @@
 package ru.bscgrand.Zayavka.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
@@ -71,55 +72,54 @@ public class RequestController {
         String supplyStr = allParams.get("supply");
         String sentStr = allParams.get("sent");
         String progressMarkStr = allParams.get("progressMark");
-        if (subdivision == null) subdivision = "Бригада бурения 1";
+        Specification<GoodsRequest> byParamsSpec = null;
+        if (!subdivision.equals("")) byParamsSpec = subdivisionIs(subdivision);
         LocalDate dateOfRequestFrom,dateOfRequestTo,dateOfReceivingFrom,dateOfReceivingTo,dateOfGeneralRequestFrom,dateOfGeneralRequestTo;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try{
             dateOfRequestFrom = LocalDate.parse(dateOfRequestFromStr, formatter);
-        } catch (DateTimeParseException ew){
-            dateOfRequestFrom = LocalDate.MIN;
-        }
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(dateOfPurchaseFrom(dateOfRequestFrom))  : dateOfPurchaseFrom(dateOfRequestFrom);
+        } catch (DateTimeParseException ignored){}
         try{
             dateOfRequestTo = LocalDate.parse(dateOfRequestToStr, formatter);
-        } catch (DateTimeParseException ew){
-            dateOfRequestTo = LocalDate.MAX;
-        }
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(dateOfPurchaseTo(dateOfRequestTo))  : dateOfPurchaseTo(dateOfRequestTo);
+        } catch (DateTimeParseException ignored){}
         try{
             dateOfReceivingFrom = LocalDate.parse(dateOfReceivingFromStr, formatter);
-        } catch (DateTimeParseException ew){
-            dateOfReceivingFrom = LocalDate.MIN;
-        }
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(dateOfReceivingFrom(dateOfReceivingFrom))  : dateOfReceivingFrom(dateOfReceivingFrom);
+        } catch (DateTimeParseException ignored){}
         try{
             dateOfReceivingTo = LocalDate.parse(dateOfReceivingToStr, formatter);
-        } catch (DateTimeParseException ew){
-            dateOfReceivingTo = LocalDate.MAX;
-        }
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(dateOfReceivingTo(dateOfReceivingTo))  : dateOfReceivingTo(dateOfReceivingTo);
+        } catch (DateTimeParseException ignored){}
         try{
             dateOfGeneralRequestFrom = LocalDate.parse(dateOfGeneralRequestFromStr, formatter);
-        } catch (DateTimeParseException ew){
-            dateOfGeneralRequestFrom = LocalDate.MIN;
-        }
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(dateOfGeneralRequestFrom(dateOfGeneralRequestFrom))  : dateOfGeneralRequestFrom(dateOfGeneralRequestFrom);
+        } catch (DateTimeParseException ignored){}
         try{
             dateOfGeneralRequestTo = LocalDate.parse(dateOfGeneralRequestToStr, formatter);
-        } catch (DateTimeParseException ew){
-            dateOfGeneralRequestTo = LocalDate.MAX;
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(dateOfGeneralRequestTo(dateOfGeneralRequestTo))  : dateOfGeneralRequestTo(dateOfGeneralRequestTo);
+        } catch (DateTimeParseException ignored){}
+
+        if (!supplyStr.equals("any")) {
+         boolean supply = false;
+         if (supplyStr.equals("true")) supply = true;
+         byParamsSpec = byParamsSpec != null ? byParamsSpec.and(supplyIs(supply))  : supplyIs(supply);
         }
-        boolean supply = false;
-        if (supplyStr.equals("true")) supply = true;
-        else if (supplyStr.equals("any")) {}
-        boolean sent = false;
-        if (sentStr.equals("true")) sent = true;
-        else if (supplyStr.equals("any")) {}
-        boolean progressMark = false;
-        if (progressMarkStr.equals("true")) progressMark = true;
-        else if (supplyStr.equals("any")) {}
 
-        GoodsRequestSpecifications spec1 = new GoodsRequestSpecifications(new SearchCriteria("subdivision", ":", subdivision));
-        GoodsRequestSpecifications spec2 = new GoodsRequestSpecifications(new SearchCriteria("dateOfPurchaseRequest", ">", dateOfRequestFrom));
-         GoodsRequestSpecifications spec3 = new GoodsRequestSpecifications(new SearchCriteria("dateOfPurchaseRequest", "<", dateOfRequestTo));
+        if (!sentStr.equals("any")) {
+            boolean sent = false;
+            if (sentStr.equals("true")) sent = true;
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(sentIs(sent))  : sentIs(sent);
+        }
 
-        List<GoodsRequest> result = goodsRequestRepository.findAll(where(dateOfPurchaseTo(dateOfRequestTo)).and(dateOfPurchaseFrom(dateOfRequestFrom)));
-        return result;
+        if (!supplyStr.equals("any")) {
+            boolean progressMark = false;
+            if (progressMarkStr.equals("true")) progressMark = true;
+            byParamsSpec = byParamsSpec != null ? byParamsSpec.and(progressMarkIs(progressMark))  : progressMarkIs(progressMark);
+        }
+
+        return goodsRequestRepository.findAll(byParamsSpec);
     }
 
     // Добавить заявку из экселя
