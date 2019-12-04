@@ -2,11 +2,10 @@ package ru.bscgrand.Zayavka.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
 import ru.bscgrand.Zayavka.Models.Repositories.GoodsRequestRepository;
-import ru.bscgrand.Zayavka.Models.Specification.GoodsRequestSpecifications;
-import ru.bscgrand.Zayavka.Models.Specification.SearchCriteria;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -120,6 +119,15 @@ public class RequestController {
         }
 
         return goodsRequestRepository.findAll(byParamsSpec);
+    }
+
+    @PostMapping("/api/update")
+    public ResponseEntity updateGoods(@RequestBody GoodsRequest updateGoodsRequest){
+        if(goodsRequestRepository.findById(updateGoodsRequest.getId()).isPresent()){
+            goodsRequestRepository.save(updateGoodsRequest);
+            return ResponseEntity.ok().build();
+        }
+        else return ResponseEntity.notFound().build();
     }
 
     // Добавить заявку из экселя

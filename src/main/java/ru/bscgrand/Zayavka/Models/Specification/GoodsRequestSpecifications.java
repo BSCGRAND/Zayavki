@@ -8,8 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import ru.bscgrand.Zayavka.Models.GoodsRequest;
-import ru.bscgrand.Zayavka.Models.GoodsRequest_;
-import ru.bscgrand.Zayavka.Models.Specification.SearchCriteria;
+import ru.bscgrand.Zayavka.Models.Metamodels.GoodsRequest_;
 
 import java.time.LocalDate;
 
@@ -120,6 +119,7 @@ public class GoodsRequestSpecifications implements Specification {
 
     @Override
     public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+
         if (criteria.getOperation().equalsIgnoreCase(">")) {
             return criteriaBuilder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
         }

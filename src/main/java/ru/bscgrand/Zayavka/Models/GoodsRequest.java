@@ -228,4 +228,5 @@ public class GoodsRequest {
                 ", comments='" + comments + '\'' +
                 '}';
     }
+
 }
